@@ -1,0 +1,481 @@
+/**
+ * 太阳系数据集
+ *
+ *  位置：不依赖本文件的轨道要素，由 web/js/core/ephemeris.js 用 astronomy-engine
+ *        （VSOP87 / ELP2000 / 木卫专用模型）实时计算真实位置；
+ *        行星轨道要素仅作展示与交叉校验（JPL / Standish 近似要素表）。
+ *  物理参数：NASA Planetary Fact Sheet、JPL SSD、IAU 2024 命名表。
+ *  单位：长度 km、质量 kg、密度 g/cm³、重力 m/s²、逃逸速度 km/s、
+ *        自转 小时、温度 K、轨道周期 天、距离 AU。
+ */
+
+import { MOONS } from './moons.js';
+import { SMALL_BODIES } from './small-bodies.js';
+import { PROBES } from './probes.js';
+
+export { MOONS, SMALL_BODIES, PROBES };
+
+export const AU_KM = 149597870.7;
+export const LY_KM = 9.4607304725808e12;
+
+const el = (a, e, i, L, longPeri, longNode, r) => ({
+  a, e, i, L, longPeri, longNode,
+  rates: r ? { a: r[0], e: r[1], i: r[2], L: r[3], longPeri: r[4], longNode: r[5] } : null,
+});
+
+export const SUN = {
+  id: 'sun', type: 'star', name: '太阳', en: 'Sun',
+  // 真彩：5772 K 黑体色（Kim et al. 2002 色温拟合 → cie.blackbodyToHex）。
+  // ⚠️ 别再改回橙黄 —— 太阳肉眼偏黄是地球瑞利散射的结果，出大气层后它**就是**近白微暖（坑 40）。
+  color: '#fff1ea', radiusKm: 696340, massKg: 1.9885e30, densityGcm3: 1.408,
+  gravity: 274, escapeKms: 617.7, rotationHours: 609.12, axialTilt: 7.25,
+  luminosity: 3.828e26, tempK: 5772, coreTempK: 1.57e7, coronaTempK: 3e6,
+  magV: -26.74, absoluteMag: 4.83, age: '46.03 亿年',
+  composition: ['氢 73.5%', '氦 24.9%', '氧、碳、铁、氖等 1.6%'],
+  spectralType: 'G2V', metallicity: 'Z ≈ 0.0122',
+  texture: 'sun.jpg',
+  /* 太阳专属参数 */
+  massFraction: '占太阳系总质量的 99.86%',
+  volumeEarths: '约 130 万个地球',
+  surfaceAreaKm2: 6.09e12,
+  rotationEquatorDays: 24.47, rotationPoleDays: 34.4,
+  magneticField: '黑子区可达 0.3 T（地球磁场约 5×10⁻⁵ T）',
+  solarWindSpeed: '300–800 km/s',
+  solarCycle: '约 11 年（当前为第 25 活动周）',
+  fusionRate: '每秒 6.0×10¹¹ kg 氢 → 氦',
+  massLossRate: '每秒约 400 万吨（光 + 太阳风）',
+  photonTravelTime: '核心光子到表面约 10 万年，再到地球约 8 分 20 秒',
+  energyDensity: '核心 276.5 W/m³（与堆肥相当，但体积巨大）',
+  galacticDistanceLy: 26700,
+  galacticOrbitYears: '2.25–2.5 亿年',
+  galacticSpeedKms: 220,
+  structure: [
+    '核心（0–0.25 R☉）：1500 万 K，核聚变区',
+    '辐射层（0.25–0.7 R☉）：能量以光子扩散方式外传，耗时约 10 万年',
+    '对流层（0.7–1 R☉）：等离子体对流，形成米粒组织与黑子',
+    '光球层（表面）：5772 K，可见光从这里发出',
+    '色球层：数千至数万 K，日珥与耀斑的活动区',
+    '日冕：100–300 万 K，向外延伸成太阳风',
+  ],
+  future: '约 50 亿年后核心氢耗尽 → 红巨星 → 行星状星云 → 白矮星',
+  desc: '太阳是太阳系唯一的恒星，占系统总质量的 99.86%。它是一颗 G2V 型主序星，核心每秒把约 6 亿吨氢聚变为氦，能量经约 10 万年才能从核心抵达表面。',
+  facts: [
+    '直径 139.2 万公里，可装下约 130 万个地球。',
+    '日冕温度高达 100–300 万 K，比表面热数百倍——「日冕加热问题」至今未解。',
+    '太阳活动以约 11 年为周期，当前正处于第 25 活动周的极大期附近。',
+    '每秒约 400 万吨质量通过核聚变转化为能量。',
+    '太阳绕银心公转一周约 2.3 亿年，速度约 220 km/s。',
+    '太阳并非静止：它以约 20 km/s 相对邻近恒星运动，带着整个太阳系绕银心飞驰。',
+  ],
+  researchQuery: 'solar activity solar cycle corona heating',
+};
+
+export const PLANETS = [
+  {
+    id: 'mercury', type: 'planet', name: '水星', en: 'Mercury', parent: 'sun',
+    // 真彩：几何反照率 0.142，谱形状借月球月海（水星无公开逐波长曲线，conf 0.55）。
+    // 出处：Mallama 2017 Icarus 282,19（几何 0.142）+ Robinson et al. 2008 Science 321,66
+    color: '#70695f', radiusKm: 2439.7, massKg: 3.3011e23, densityGcm3: 5.427,
+    gravity: 3.7, escapeKms: 4.25, rotationHours: 1407.6, axialTilt: 0.034,
+    albedo: 0.106, magV: -1.9, tempK: 440, tempMinK: 100, tempMaxK: 700,
+    atmosphere: '几乎没有（稀薄外逸层：氧、钠、氢、氦、钾）',
+    composition: ['铁镍核心（占半径约 85%）', '硅酸盐地幔', '撞击坑密布的岩石壳'],
+    moons: 0, texture: 'mercury.jpg',
+    orbit: el(0.38709927, 0.20563593, 7.00497902, 252.25032350, 77.45779628, 48.33076593,
+      [0.00000037, 0.00001906, -0.00594749, 149472.67411175, 0.16047689, -0.12534081]),
+    periodDays: 87.969,
+    discovery: { year: '远古已知', by: '—', method: '肉眼可见' },
+    exploration: [
+      { name: '水手 10 号', agency: 'NASA', year: 1974, note: '首次飞掠，拍摄约 45% 表面' },
+      { name: 'MESSENGER', agency: 'NASA', year: '2008–2015', note: '首次环绕，确认极区水冰' },
+      { name: 'BepiColombo', agency: 'ESA/JAXA', year: '2026 入轨', note: '两台轨道器联合探测' },
+    ],
+    desc: '水星是离太阳最近、也是最小的行星。它没有真正的大气层，表面布满撞击坑。由于 3:2 的自转-公转共振，水星上的一「天」（昼夜循环）长达 176 个地球日。',
+    facts: [
+      '近日点进动异常每世纪 43″，曾是广义相对论的第一个验证。',
+      '极区永久阴影的坑底存在水冰，由 MESSENGER 探测器证实。',
+      '拥有约地球 1% 强度的磁场，说明铁核至少部分仍为液态。',
+      '昼夜温差约 600 K，是太阳系行星中最大的。',
+    ],
+    researchQuery: 'Mercury planet MESSENGER BepiColombo',
+  },
+  {
+    id: 'venus', type: 'planet', name: '金星', en: 'Venus', parent: 'sun',
+    // 真彩：几何反照率 0.689（⚠️ 不是 Bond 0.76），整条谱按 Mallama 2006/2017 锚定。
+    // 出处：Mallama et al. 2006 Icarus 182,10 + Mallama et al. 2017 Icarus 282,19 + Limaye et al. 2021（按波长 Bond 表）
+    // 怪怪说过"金星偏灰"——方向对，机制相反：旧值 #e8c98a 饱和 41% 是**过饱和**，
+    // 真彩是极淡的暖白（饱和 15%），肉眼在天空里看它就是这种淡黄白（坑 40）。
+    color: '#e7dac6', radiusKm: 6051.8, massKg: 4.8675e24, densityGcm3: 5.243,
+    gravity: 8.87, escapeKms: 10.36, rotationHours: -5832.5, axialTilt: 177.36,
+    albedo: 0.65, magV: -4.6, tempK: 737, tempMinK: 735, tempMaxK: 740,
+    atmosphere: '二氧化碳 96.5%、氮 3.5%，硫酸云层，表面气压 92 bar',
+    composition: ['铁镍核心', '硅酸盐地幔', '火山玄武岩表面（约 90% 被火山平原覆盖）'],
+    moons: 0, texture: 'venus_atmosphere.jpg', surfaceTexture: 'venus.jpg',
+    orbit: el(0.72333566, 0.00677672, 3.39467605, 181.97909950, 131.60246718, 76.67984255,
+      [0.00000390, -0.00004107, -0.00078890, 58517.81538729, 0.00268329, -0.27769418]),
+    periodDays: 224.701,
+    discovery: { year: '远古已知', by: '—', method: '肉眼可见' },
+    exploration: [
+      { name: '金星 7 号', agency: '苏联', year: 1970, note: '首次在金星表面软着陆并传回数据' },
+      { name: '麦哲伦号', agency: 'NASA', year: '1990–1994', note: '雷达测绘 98% 表面' },
+      { name: '拂晓号', agency: 'JAXA', year: '2015–2025', note: '长期监测大气环流；2025 年任务终止' },
+      { name: 'VERITAS / DAVINCI / EnVision', agency: 'NASA/ESA', year: '2030s', note: '三项新任务即将出发' },
+    ],
+    desc: '金星与地球大小相近，却是太阳系最热的行星——强烈温室效应使表面高达 464 °C，比水星更热。它自转方向与其他行星相反，一天（243 地球日）比一年（225 地球日）还长。',
+    facts: [
+      '表面气压是地球的 92 倍，相当于地球海洋 900 米深处。',
+      '硫酸云层使其反射率极高，是夜空中最亮的行星（视星等可达 −4.6）。',
+      '2020 年宣布的磷化氢（PH₃）探测至今仍有争议，尚未确认生物来源。',
+      '大气呈「超级自转」：云层 4 天绕行星一圈，而固体星球要 243 天。',
+    ],
+    researchQuery: 'Venus atmosphere greenhouse phosphine',
+  },
+  {
+    id: 'earth', type: 'planet', name: '地球', en: 'Earth', parent: 'sun',
+    // ⚠️ 待程序化生成：地球无"整体反射率谱"可言（海/陆/云/冰混合，随经度剧变）。必须走程序化生成。
+    //   现行值 #4a90d9 是手写近似，**未经 CIE 计算**；Request C 属性驱动生成器接管后替换。
+    color: '#4a90d9', radiusKm: 6371.0, massKg: 5.97237e24, densityGcm3: 5.514,
+    gravity: 9.807, escapeKms: 11.186, rotationHours: 23.9345, axialTilt: 23.44,
+    albedo: 0.367, magV: -3.99, tempK: 288, tempMinK: 184, tempMaxK: 330,
+    atmosphere: '氮 78.08%、氧 20.95%、氩 0.93%、二氧化碳 0.04%',
+    composition: ['固态铁镍内核', '液态外核（产生磁场）', '硅酸盐地幔', '薄地壳与海洋'],
+    moons: 1, texture: 'earth.jpg', nightTexture: 'earth_night.jpg',
+    cloudsTexture: 'earth_clouds.jpg', normalTexture: 'earth_normal.png', specularTexture: 'earth_specular.png',
+    orbit: el(1.00000261, 0.01671123, -0.00001531, 100.46457166, 102.93768193, 0.0,
+      [0.00000562, -0.00004392, -0.01294668, 35999.37244981, 0.32327364, 0.0]),
+    periodDays: 365.256,
+    discovery: { year: '—', by: '—', method: '我们的家园' },
+    exploration: [
+      { name: '国际空间站', agency: '多国', year: '1998–', note: '连续载人驻留超过 20 年' },
+      { name: 'Landsat / Sentinel', agency: 'NASA/ESA', year: '1972–', note: '长期地表观测' },
+    ],
+    desc: '地球是目前已知唯一存在生命的行星，也是唯一表面有液态水海洋的天体。磁场、臭氧层与板块构造共同维持了宜居环境。',
+    facts: [
+      '太阳系中密度最大的行星（5.51 g/cm³）。',
+      '液态外核的对流产生磁场，磁层为我们屏蔽大部分太阳风与宇宙射线。',
+      '月球正以每年约 3.8 厘米的速度远离地球。',
+      '地球自转正在变慢：一个世纪约延长 1.7 毫秒。',
+      '约 71% 的表面被水覆盖，但水只占总质量的 0.023%。',
+    ],
+    researchQuery: 'Earth magnetosphere climate habitability',
+  },
+  {
+    id: 'mars', type: 'planet', name: '火星', en: 'Mars', parent: 'sun',
+    // 真彩：几何反照率 0.17，谱形状来自 Viking 1 着陆点实测（蓝0.11/绿0.17/红0.30-0.39）。
+    // 出处：Guinness et al. 1981 JGR 86,7983 + Viking II 全球图 + Bell et al. 2006 JGR 111
+    // 旧值 #c1502e 饱和 76%，是"网上火星图"的观感；真彩饱和 44%（坑 40）。
+    color: '#8a6c4b', radiusKm: 3389.5, massKg: 6.4171e23, densityGcm3: 3.9335,
+    gravity: 3.721, escapeKms: 5.027, rotationHours: 24.6229, axialTilt: 25.19,
+    albedo: 0.150, magV: -2.94, tempK: 210, tempMinK: 130, tempMaxK: 308,
+    atmosphere: '二氧化碳 95.3%、氮 2.7%、氩 1.6%，气压约 6 mbar',
+    composition: ['铁-硫核心', '硅酸盐地幔', '富含氧化铁的红色地表（赤铁矿）'],
+    moons: 2, texture: 'mars.jpg',
+    orbit: el(1.52371034, 0.09339410, 1.84969142, -4.55343205, -23.94362959, 49.55953891,
+      [0.00001847, 0.00007882, -0.00813131, 19140.30268499, 0.44441088, -0.29257343]),
+    periodDays: 686.980,
+    discovery: { year: '远古已知', by: '—', method: '肉眼可见（红色）' },
+    exploration: [
+      { name: '海盗 1/2 号', agency: 'NASA', year: 1976, note: '首次成功着陆' },
+      { name: '好奇号', agency: 'NASA', year: '2012–', note: '确认盖尔撞击坑曾为湖泊' },
+      { name: '毅力号 + 机智号', agency: 'NASA', year: '2021–', note: '采集样本、首次地外动力飞行' },
+      { name: '天问一号 / 祝融号', agency: 'CNSA', year: '2021–', note: '中国首次火星着陆巡视' },
+    ],
+    desc: '火星是太阳系中与地球最相似的行星：有四季、有极冠、有峡谷与火山。它曾拥有液态水——河床、三角洲与含水矿物都被探测器证实。',
+    facts: [
+      '奥林匹斯山高约 22 公里，是太阳系已知最高的火山。',
+      '水手号峡谷长逾 4000 公里，比地球的大峡谷长 10 倍。',
+      '毅力号正在杰泽罗陨石坑采集样本，火星样本返回计划正在推进。',
+      '2024 年地震波数据确认火星地幔存在液态硅酸盐层。',
+      '全球性沙尘暴可持续数周，覆盖整个行星。',
+    ],
+    researchQuery: 'Mars Jezero Perseverance water',
+  },
+  {
+    id: 'jupiter', type: 'planet', name: '木星', en: 'Jupiter', parent: 'sun',
+    // 真彩：取**亮带**光谱（几何反照率 0.538，DSCOVR/EPIC 实测 disk 最大反照率）。
+    // 暗带另有 jupiter_belt 条目（geo 0.355），条带对比在渲染层用贴图叠加。
+    // 出处：DSCOVR/EPIC Frontiers 2025 表1 + Karkoschka 1994 Icarus 111,174
+    // 旧值 #d8a86b 饱和 50%；真彩近白微暖（饱和 9%）—— 木星整体其实就是个奶油白球（坑 40）。
+    color: '#c8c4b6', radiusKm: 69911, massKg: 1.8982e27, densityGcm3: 1.326,
+    gravity: 24.79, escapeKms: 59.5, rotationHours: 9.9259, axialTilt: 3.13,
+    albedo: 0.503, magV: -2.70, tempK: 165, tempMinK: 110, tempMaxK: 165,
+    atmosphere: '氢 89.8%、氦 10.2%，含氨、甲烷、水冰云与硫化氢',
+    composition: ['岩石-冰核心（推测）', '金属氢层', '液态分子氢幔', '氨水云顶'],
+    moons: 115, texture: 'jupiter.jpg',   // 卫星数统计日期 2026-08（NASA/MPC 口径）
+    ring: { innerKm: 122000, outerKm: 129000, note: '极暗的尘埃环，由四颗内卫星的喷发物构成' },
+    orbit: el(5.20288700, 0.04838624, 1.30439695, 34.39644051, 14.72847983, 100.47390909,
+      [-0.00011607, -0.00013253, -0.00183714, 3034.74612775, 0.21252668, 0.20469106]),
+    periodDays: 4332.59,
+    discovery: { year: '远古已知', by: '—', method: '肉眼可见；伽利略 1610 年发现其四大卫星' },
+    exploration: [
+      { name: '先驱者 10/11', agency: 'NASA', year: '1973/74', note: '首次飞掠' },
+      { name: '旅行者 1/2', agency: 'NASA', year: 1979, note: '发现木星环与 Io 火山' },
+      { name: '伽利略号', agency: 'NASA', year: '1995–2003', note: '首次环绕并投放探测器' },
+      { name: '朱诺号', agency: 'NASA', year: '2016–', note: '揭示内部结构与极区气旋' },
+      { name: 'JUICE / Europa Clipper', agency: 'ESA/NASA', year: '2031/2030', note: '聚焦冰卫星' },
+    ],
+    desc: '木星是太阳系最大的行星，质量是其余行星总和的 2.5 倍。它没有固体表面，内部是金属氢组成的液态区，强大的磁场是地球的 2 万倍。',
+    facts: [
+      '大红斑是持续至少 190 年的反气旋风暴，宽度仍超过地球直径。',
+      '木卫二冰壳下的液态海洋是太阳系最受关注的生命候选地之一。',
+      '木卫一是太阳系火山活动最剧烈的天体，有 400 多座活火山。',
+      '自转最快：不到 10 小时转一圈，赤道因此明显隆起。',
+      '磁层若可见，从地球看会比满月还大数倍。',
+    ],
+    researchQuery: 'Jupiter Great Red Spot Juno magnetosphere',
+  },
+  {
+    id: 'saturn', type: 'planet', name: '土星', en: 'Saturn', parent: 'sun',
+    // 真彩：几何反照率 0.499，红/蓝比≈1.76 → 淡黄（不含环；环见 spectra.NO_SPECTRUM.saturn_ring）。
+    // 出处：Dyudina et al. 2016 ApJ 822,76 表4 + Karkoschka 1998 Icarus 133,134
+    color: '#cebc9c', radiusKm: 58232, massKg: 5.6834e26, densityGcm3: 0.687,
+    gravity: 10.44, escapeKms: 35.5, rotationHours: 10.5606, axialTilt: 26.73,
+    albedo: 0.342, magV: -0.40, tempK: 134, tempMinK: 90, tempMaxK: 134,
+    atmosphere: '氢 96.3%、氦 3.25%，氨与甲烷云',
+    composition: ['岩石-冰核心', '金属氢层', '液态氢幔', '氨冰云顶'],
+    moons: 293, texture: 'saturn.jpg', ringTexture: 'saturn_ring.png',   // 卫星数统计日期 2026-08（NASA/MPC 口径）
+    ring: { innerKm: 74500, outerKm: 140220, note: '主环系宽约 6.6 万公里，平均厚度仅约 10 米，主要由水冰颗粒组成' },
+    orbit: el(9.53667594, 0.05386179, 2.48599187, 49.95424423, 92.59887831, 113.66242448,
+      [-0.00125060, -0.00050991, 0.00193609, 1222.49362201, -0.41897216, -0.28867794]),
+    periodDays: 10759.22,
+    discovery: { year: '远古已知', by: '—', method: '肉眼可见；1655 年惠更斯识别出环' },
+    exploration: [
+      { name: '先驱者 11', agency: 'NASA', year: 1979, note: '首次飞掠' },
+      { name: '旅行者 1/2', agency: 'NASA', year: '1980/81', note: '发现环的精细结构' },
+      { name: '卡西尼-惠更斯', agency: 'NASA/ESA', year: '2004–2017', note: '13 年环绕，惠更斯登陆土卫六' },
+    ],
+    desc: '土星以壮观的行星环著称。环主要由水冰颗粒组成，厚度平均仅约 10 米，径向宽约 6.6 万公里（外径约 28 万公里）。它的平均密度小于水（0.687 g/cm³）。',
+    facts: [
+      '北极存在一个六边形的极地涡旋，直径约 3 万公里。',
+      '土卫二南极的冰喷泉含有有机分子与氢气，暗示海底热液活动。',
+      '土卫六是太阳系唯一拥有稠密大气与液态湖海的卫星（甲烷湖）。',
+      '环的年龄可能只有 1000–1 亿年，比太阳系年轻得多。',
+      '平均密度小于水——理论上土星能浮在水面上。',
+    ],
+    researchQuery: 'Saturn rings Enceladus Titan Cassini',
+  },
+  {
+    id: 'uranus', type: 'planet', name: '天王星', en: 'Uranus', parent: 'sun',
+    // 真彩：几何反照率 0.488，谱按 Irwin et al. 2024（重建谱，conf 0.75）。
+    // ⚠️ 天王星必须**偏青不偏黄**（B≥R）—— 这是整个真彩链路的 sanity gate。
+    // 出处：Irwin et al. 2024 MNRAS 527,11521 + arXiv:2502.18971 表2
+    color: '#a8bfd2', radiusKm: 25362, massKg: 8.6810e25, densityGcm3: 1.270,
+    gravity: 8.69, escapeKms: 21.3, rotationHours: -17.24, axialTilt: 97.77,
+    albedo: 0.300, magV: 5.68, tempK: 76, tempMinK: 49, tempMaxK: 76,
+    atmosphere: '氢 82.5%、氦 15.2%、甲烷 2.3%',
+    composition: ['岩石核心', '水-氨-甲烷「冰」幔（超临界流体）', '氢氦大气'],
+    moons: 29, texture: 'uranus.jpg',   // 含 2025-08 公布的 S/2025 U1
+    ring: { innerKm: 38000, outerKm: 51150, note: '13 条细窄的暗环，1977 年由掩星观测发现' },
+    orbit: el(19.18916464, 0.04725744, 0.77263783, 313.23810451, 170.95427630, 74.01692503,
+      [-0.00196176, -0.00004397, -0.00242939, 428.48202785, 0.40805281, 0.04240589]),
+    periodDays: 30688.5,
+    discovery: { year: 1781, by: '威廉·赫歇尔', method: '望远镜观测（第一颗被发现的行星）' },
+    exploration: [{ name: '旅行者 2 号', agency: 'NASA', year: 1986, note: '唯一一次飞掠，发现 10 颗新卫星' }],
+    desc: '天王星的自转轴倾斜 98°，几乎「躺着」绕太阳公转，两极会经历 42 年的极昼与 42 年的极夜。它是一颗冰巨星。',
+    facts: [
+      '1781 年被发现，是第一颗用望远镜发现的行星。',
+      '2023 年韦布望远镜在北极区域探测到极地气旋与雾霾层。',
+      '是太阳系中大气温度最低的行星（云顶约 −224 °C）。',
+      '美国行星科学十年调查将「天王星轨道器与探测器」列为最高优先旗舰任务。',
+    ],
+    researchQuery: 'Uranus ice giant atmosphere Voyager',
+  },
+  {
+    id: 'neptune', type: 'planet', name: '海王星', en: 'Neptune', parent: 'sun',
+    // ⚠️ 这行曾把 massKg / densityGcm3 吞进行尾注释（注释写在字段中间），
+    //    结果海王星静默丢失质量与密度 —— 典型的"静默故障"，见 坑 41。
+    // 真彩：几何反照率 0.442，Irwin et al. 2024 修正 —— 不再用 Voyager 的深蓝。
+    // ⚠️ 2024 结论：海王星与天王星颜色**非常接近**，海王星只稍蓝（霾层更薄）。
+    //    README 里旧的"海王星淡青蓝 vs 天王星青绿"对比说法已过时。
+    // 出处：Irwin et al. 2024 MNRAS 527,11521
+    color: '#a2b8c5', radiusKm: 24622, massKg: 1.02413e26, densityGcm3: 1.638,
+    gravity: 11.15, escapeKms: 23.5, rotationHours: 16.11, axialTilt: 28.32,
+    albedo: 0.290, magV: 7.78, tempK: 72, tempMinK: 55, tempMaxK: 72,
+    atmosphere: '氢 80%、氦 19%、甲烷 1.5%',
+    composition: ['岩石-铁核心', '水-氨-甲烷冰幔', '氢氦甲烷大气'],
+    moons: 16, texture: 'neptune.jpg',
+    ring: { innerKm: 41900, outerKm: 62930, note: '5 条暗环，含明显的尘埃弧段' },
+    orbit: el(30.06992276, 0.00859048, 1.77004347, -55.12002969, 44.96476227, 131.78422574,
+      [0.00026291, 0.00005105, 0.00035372, 218.45945325, -0.32241464, -0.00508664]),
+    periodDays: 60195.0,
+    discovery: { year: 1846, by: '勒维耶（计算）/ 伽勒（观测）', method: '由天王星轨道摄动预言后观测确认' },
+    exploration: [{ name: '旅行者 2 号', agency: 'NASA', year: 1989, note: '唯一一次飞掠，发现大黑斑' }],
+    desc: '海王星是距太阳最远的行星，也是第一颗「笔尖上发现的行星」。它拥有太阳系最狂暴的风，风速可达 2100 km/h。',
+    facts: [
+      '大黑斑是 1989 年观测到的巨型风暴，此后消失又出现新的黑斑。',
+      '海卫一（Triton）逆行公转，是捕获的柯伊伯带天体，表面有氮气冰火山。',
+      '2022 年研究显示其内部可能存在超离子水。',
+      '公转一周约 165 地球年——自 1846 年发现至今只走了约 1 圈。',
+      '接收到的阳光只有地球的 1/900。',
+    ],
+    researchQuery: 'Neptune atmosphere wind Triton',
+  },
+];
+
+export const DWARFS = [
+  {
+    id: 'ceres', type: 'dwarf', name: '谷神星', en: 'Ceres', parent: 'sun',
+    // 真彩（由色指数反推）：中档 · 2 条约束（vr=0.057 grt=0.061，k=0.059）· 几何反照率 0.094。
+    // 出处：Ciarniello et al. 2017, A&A 598, A130（Dawn/VIR，Hapke 模型圆面测光）
+    // V−R = 0.38±0.01、几何反照率 0.094±0.007、VIS 谱斜率 1.1 %/kÅ。三者指向一条**近乎中性、极淡偏红**的谱 —— 谷神星确实是暗灰的。⚠️ 没有 B−V：MBOSS 不覆盖内太阳系天体，故只有 2 条约束。
+    color: '#575656',
+    radiusKm: 469.7, massKg: 9.3835e20, densityGcm3: 2.162, gravity: 0.27, escapeKms: 0.51,
+    rotationHours: 9.074, axialTilt: 4, albedo: 0.09, magV: 7.6, tempK: 168,
+    atmosphere: '无（可能有短暂的冰升华外逸层）',
+    composition: ['岩石核心', '含水冰的地幔', '碳酸盐与黏土表面'],
+    moons: 0, texture: 'ceres.jpg', periodDays: 1681.63, shape: 'irregular',
+    discovery: { year: 1801, by: '朱塞佩·皮亚齐', method: '寻找火星-木星之间缺失行星时发现' },
+    exploration: [{ name: '黎明号 (Dawn)', agency: 'NASA', year: '2015–2018', note: '首次环绕两颗天体（灶神星、谷神星）' }],
+    desc: '小行星带中唯一的矮行星，也是其中最大的天体，占小行星带总质量约 1/3。它含有大量水冰，地下可能存在液态水层。',
+    facts: [
+      '黎明号在 Occator 坑发现明亮的碳酸钠盐沉积，来自地下卤水。',
+      '是海王星内唯一的矮行星，平均距离太阳 2.77 AU。',
+      '地下可能保留着一个残余的液态水层。',
+    ],
+    researchQuery: 'Ceres Dawn dwarf planet water',
+  },
+  {
+    id: 'pluto', type: 'dwarf', name: '冥王星', en: 'Pluto', parent: 'sun',
+    // 真彩：几何反照率 0.51（New Horizons 光度）。tholin 红棕，白斑（Sputnik Planitia）走贴图。
+    // 出处：New Horizons Ralph/MVIC 光度 + Mallama 2017
+    color: '#c7bead',
+    radiusKm: 1188.3, massKg: 1.303e22, densityGcm3: 1.854, gravity: 0.62, escapeKms: 1.21,
+    rotationHours: 153.29, axialTilt: 122.53, albedo: 0.52, magV: 14.4, tempK: 44,
+    atmosphere: '稀薄的氮、甲烷、一氧化碳（表面气压约 1 Pa，随季节变化）',
+    composition: ['岩石核心', '水冰地幔', '氮/甲烷/一氧化碳冰表面'],
+    moons: 5, texture: 'pluto.jpg', periodDays: 90560, shape: 'irregular',
+    discovery: { year: 1930, by: '克莱德·汤博', method: '洛厄尔天文台的系统性搜寻' },
+    exploration: [{ name: '新视野号', agency: 'NASA', year: 2015, note: '首次近距离飞掠，分辨率达 80 m/像素' }],
+    desc: '冥王星曾是第九大行星，2006 年被重新归类为矮行星。它与卫星卡戎构成一个双星系统，两者围绕共同质心旋转。',
+    facts: [
+      '斯普特尼克平原（心形区域）是巨大的氮冰冰川，内部仍有对流。',
+      '表面有高达 3.5 公里的水冰山脉。',
+      '轨道与海王星形成 3:2 共振，永远不会相撞。',
+      '从 1979 到 1999 年，它比海王星更靠近太阳。',
+    ],
+    researchQuery: 'Pluto New Horizons Kuiper belt',
+  },
+  {
+    id: 'eris', type: 'dwarf', name: '阋神星', en: 'Eris', parent: 'sun',
+    // 真彩（由色指数反推）：中偏低档 · 3 条约束（bv=0.589 vr=0.109 grt=0.213，k=0.304）· 几何反照率 0.96。
+    // 出处：MBOSS-2 冻结表（64 历元）· 反照率 Sicardy et al. 2011 / Brown
+    // ⚠️ 三条约束推的 k 是 0.589 / 0.109 / 0.213，极差 0.481 —— 贴着单斜率门限 0.5。原因清楚：阋神星表面是甲烷冰，CH4 吸收带落在 620–730 nm，正好在可见光窗口内，**任何单斜率谱都描述不了**。所幸它反照率 0.96，明暗这一维很确定，色相偏差在视觉上可忽略。
+    color: '#fff9f2',
+    radiusKm: 1163, massKg: 1.66e22, densityGcm3: 2.52, gravity: 0.82, escapeKms: 1.38,
+    rotationHours: 379.2, axialTilt: 78, albedo: 0.96, magV: 18.7, tempK: 42,
+    atmosphere: '可能有稀薄的甲烷霜升华层',
+    composition: ['岩石核心', '水冰地幔', '甲烷冰霜表面'],
+    moons: 1, periodDays: 203830, shape: 'irregular',
+    discovery: { year: 2005, by: '布朗、特鲁希略、拉比诺维茨', method: '帕洛马天文台巡天' },
+    exploration: [],
+    desc: '阋神星的质量比冥王星大 27%，它的发现直接导致了 2006 年「行星」定义的修订。它远在离散盘中，平均距离太阳 68 AU。',
+    facts: [
+      '表面覆盖甲烷冰霜，反照率高达 0.96，是太阳系最亮的反射体之一。',
+      '近日点 37.8 AU，远日点 97.7 AU，公转一周约 558 年。',
+      '拥有一颗卫星：阋卫一（Dysnomia）。',
+    ],
+    researchQuery: 'Eris dwarf planet Kuiper belt',
+  },
+  {
+    id: 'haumea', type: 'dwarf', name: '妊神星', en: 'Haumea', parent: 'sun',
+    // 真彩（由色指数反推）：中档 · 3 条约束（bv=-0.170 vr=-0.000 grt=-0.001，k=-0.057）· 几何反照率 0.51。
+    // 出处：MBOSS-2 冻结表（3 历元）· 反照率 Ortiz et al. 2017
+    // 三条约束高度一致（|Δk| = 0.17），k ≈ −0.06 ⇒ **中性略偏冷**。与"表面是结晶水冰"完全吻合 —— 妊神星本来就不该是暖色的。⚠️ 旧手写值 #d8d2c8 是暖灰，方向就错了。
+    color: '#bcbdbe',
+    radiusKm: 816, massKg: 4.006e21, densityGcm3: 2.018, gravity: 0.4, escapeKms: 0.85,
+    rotationHours: 3.915, axialTilt: 0, albedo: 0.51, magV: 17.3, tempK: 32,
+    atmosphere: '无',
+    composition: ['岩石核心', '结晶水冰表面'],
+    moons: 2, periodDays: 103660, shape: 'elongated',
+    discovery: { year: 2004, by: '布朗团队 / 奥尔蒂斯团队（有争议）', method: '巡天观测' },
+    exploration: [],
+    desc: '妊神星因每 3.9 小时自转一周而把自己「甩」成了椭球（约 1050×840×537 km）。它是已知唯一拥有环的矮行星，还有两颗卫星。',
+    facts: [
+      '2017 年观测到它拥有宽约 70 km 的环系统。',
+      '表面是结晶水冰，呈高反射率。',
+      '自转周期 3.9 小时，接近自身解体极限。',
+    ],
+    researchQuery: 'Haumea ring dwarf planet',
+  },
+  {
+    id: 'makemake', type: 'dwarf', name: '鸟神星', en: 'Makemake', parent: 'sun',
+    // 真彩（由色指数反推）：中偏低档 · 2 条约束（bv=0.690 grt=0.258，k=0.474）· 几何反照率 0.81。
+    // 出处：MBOSS-2 冻结表（1 历元）· 反照率 Ortiz et al. 2012
+    // ⚠️ MBOSS 里 V−R 那列是 "------"（只有 1 个历元，凑不出同时测量），所以只有 2 条约束，且极差 0.432 —— 同样是 CH4 冰导致的非单斜率。仅 1 个历元 ⇒ 自转相位可能污染，置信度再降一档，**并在界面标注**。
+    color: '#f1e8de',
+    radiusKm: 715, massKg: 3.1e21, densityGcm3: 1.7, gravity: 0.5, escapeKms: 0.8,
+    rotationHours: 22.83, axialTilt: 0, albedo: 0.81, magV: 17.0, tempK: 30,
+    atmosphere: '可能极稀薄（甲烷）',
+    composition: ['岩石核心', '甲烷与乙烷冰表面'],
+    moons: 1, periodDays: 112900, shape: 'irregular',
+    discovery: { year: 2005, by: '布朗团队', method: '帕洛马天文台巡天' },
+    exploration: [],
+    desc: '鸟神星是柯伊伯带中亮度第二高的天体，表面覆盖甲烷与乙烷冰。2016 年发现它有一颗暗卫星 MK 2。',
+    facts: [
+      '距离太阳约 45.8 AU，公转周期约 309 年。',
+      '韦布望远镜 2024 年观测显示其表面存在有机化合物信号。',
+    ],
+    researchQuery: 'Makemake dwarf planet methane',
+  },
+];
+
+
+
+/** 区域性结构 */
+export const REGIONS = [
+  {
+    id: 'asteroid-belt', name: '小行星带', en: 'Asteroid Belt', type: 'region', color: '#8d7f6d',
+    innerAu: 2.06, outerAu: 3.27, memberCount: '>130 万颗（直径 >1 km）', totalMass: '约月球质量的 4%',
+    desc: '位于火星与木星之间的小天体密集区，已知有超过 130 万颗直径大于 1 公里的天体。尽管数量庞大，总质量仅约月球质量的 4%。',
+    facts: ['谷神星占小行星带总质量的约 1/3。', '木星引力在带内形成了柯克伍德空隙。', '探测器穿越小行星带其实非常安全——天体间距平均数百万公里。'],
+    researchQuery: 'asteroid belt main belt dynamics',
+  },
+  {
+    id: 'kuiper-belt', name: '柯伊伯带', en: 'Kuiper Belt', type: 'region', color: '#6f7f9d',
+    innerAu: 30, outerAu: 50, memberCount: '>10 万颗（直径 >100 km）', totalMass: '地球质量的 1/10 – 1/100',
+    desc: '海王星轨道之外的冰质小天体环带，是短周期彗星与冥王星、阋神星等天体的家园。',
+    facts: ['2019 年新视野号飞掠的阿罗科斯就位于此处。', '存在大量与海王星共振的「冥族小天体」。'],
+    researchQuery: 'Kuiper belt formation',
+  },
+  {
+    id: 'scattered-disc', name: '离散盘', en: 'Scattered Disc', type: 'region', color: '#7a6f9d',
+    innerAu: 30, outerAu: 100, memberCount: '数千颗已确认', totalMass: '未知',
+    desc: '受海王星引力散射形成的高偏心轨道区域，塞德娜、共工星等天体属于此类。',
+    facts: ['天体轨道倾角与偏心率都远高于主柯伊伯带。'],
+    researchQuery: 'scattered disc dynamics',
+  },
+  {
+    id: 'oort-cloud', name: '奥尔特云', en: 'Oort Cloud', type: 'region', color: '#5f6f8d',
+    innerAu: 2000, outerAu: 100000, memberCount: '推测数千亿颗', totalMass: '地球质量的数倍',
+    desc: '假想中的球壳状冰质天体云，包裹整个太阳系，是长周期彗星的来源。内边界约 2000 AU，外边界可能延伸至 10 万 AU（约 1.6 光年）。',
+    facts: ['迄今没有任何探测器到达过奥尔特云。', '塞德娜是可能的内奥尔特云天体。'],
+    researchQuery: 'Oort cloud comets origin',
+  },
+  {
+    id: 'heliopause', name: '日球层顶', en: 'Heliopause', type: 'region', color: '#67e8f9',
+    innerAu: 80, outerAu: 120, memberCount: '边界', totalMass: '—',
+    desc: '太阳风与星际介质压力平衡的边界，被视为太阳系与星际空间的分界。旅行者 1 号于 2012 年、2 号于 2018 年先后穿越。',
+    facts: ['旅行者 1 号距地球已超过 240 亿公里。', '边界形状随太阳活动周期而起伏。'],
+    researchQuery: 'heliopause Voyager interstellar medium',
+  },
+  {
+    id: 'trojan-jupiter', name: '木星特洛伊群', en: 'Jupiter Trojans', type: 'region', color: '#9a8f7d',
+    innerAu: 5.2, outerAu: 5.2, memberCount: '>1 万颗已编号', totalMass: '与主带相当',
+    desc: '与木星共享轨道、聚集在 L4/L5 拉格朗日点的天体群，数量可能与小行星带相当。',
+    facts: ['露西号（Lucy）探测器正在依次拜访多颗特洛伊小行星。'],
+    researchQuery: 'Jupiter Trojans Lucy mission',
+  },
+];
+
+
+/** 全部天体 */
+export function allBodies() {
+  const out = [{ ...SUN, parent: null }];
+  for (const p of PLANETS) out.push({ ...p });
+  for (const d of DWARFS) out.push({ ...d });
+  for (const m of MOONS) out.push({ ...m, type: 'moon' });
+  for (const s of SMALL_BODIES) out.push({ ...s });
+  for (const r of REGIONS) out.push({ ...r });
+  for (const p of PROBES) out.push({ ...p });
+  return out;
+}

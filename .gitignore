@@ -1,0 +1,116 @@
+# ── 数据与模型（不进版本库；仓库只管代码与文档）────────────────
+# 依据：规则第 6 条「不提交敏感、大文件、垃圾」。
+# 02/03/04 合计 57G 的权重与数据集，靠各项目 README 的清单管理。
+*.pt
+*.pth
+*.onnx
+*.safetensors
+*.ckpt
+*.bin
+*.h5
+*.pb
+*.tflite
+*.engine
+*.gguf
+*.pkl
+*.npz
+*.npy
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.webp
+*.gif
+*.tif
+*.tiff
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+*.flv
+*.wav
+*.mp3
+*.flac
+*.m4a
+*.zip
+*.7z
+*.rar
+*.tar
+*.gz
+*.pdf
+*.docx
+*.xlsx
+*.pptx
+
+# ── 可执行与二进制（体积大且非源码）──
+# 实例：07_little_cosmos 里混进过一个 88.5MB 的 data/raw/runtime/node.exe
+*.exe
+*.msi
+*.dll
+*.dylib
+*.so
+*.node
+*.wasm
+*.AppImage
+*.dmg
+
+# ── 原始数据与下载缓存（体积大，靠项目清单管）──
+data/raw/
+raw/
+downloads/
+cache/
+.hf_cache/
+hf_cache/
+
+# ── 例外：assets/ 下的图标是代码的一部分 ──
+!assets/
+!assets/**
+
+# ── 缓存与构建产物 ──
+__pycache__/
+*.py[cod]
+*.so
+*.dll
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+node_modules/
+dist/
+build/
+*.egg-info/
+.idea/
+.vscode/
+
+# ── 虚拟环境（各自独立，不进库）──
+.venv/
+.venv*/
+venv/
+env/
+
+# ── 运行产物与日志 ──
+logs/
+log/
+runs/
+outputs/
+*.log
+*.log.*
+*.out
+*.err
+*.db
+*.sqlite
+*.sqlite3
+*.jsonl
+_scan_*/
+_qc/
+_consistency/
+
+# ── 临时与隔离区 ──
+.trash/
+_quarantine*/
+*_backup/
+*.tmp
+*.bak
+*.bak-*
+*.orig
+*.rej
