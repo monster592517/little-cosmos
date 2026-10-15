@@ -1,0 +1,14 @@
+{
+  "schema": "lc.overrides/1",
+  "_about": "人工确认过的数据修正。科研监测只会把候选写进「待复核队列」，绝不会自动改数据；只有人在「数据更新中心」点下「采纳」，才会追加一条到这里并立即生效。",
+  "_precedence": "前端加载数据后、构建目录与索引前应用：按 entityId 找到运行时实体，再按 path 覆盖字段值。全部生效后会刷新目录、索引与详情面板。",
+  "_format": {
+    "entityId": "运行时实体 id，如 'jupiter'、'bennu'、'trappist1'",
+    "path": "实体内的点分路径，支持数组下标，如 'moons'、'facts[1]'、'color'",
+    "value": "标量值（字符串 / 数字 / 布尔 / null）",
+    "origin": "回溯到源文件与字段，如 'web/js/data/solar-system.js → jupiter.moons'",
+    "note": "为什么这么改"
+  },
+  "updatedAt": "2026-09-11T05:05:25.516Z",
+  "overrides": []
+}

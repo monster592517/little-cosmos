@@ -1,0 +1,301 @@
+{
+  "schema": "lc.watch-queue/1",
+  "lastScan": "2026-09-10T15:13:09.851Z",
+  "candidates": [
+    {
+      "id": "2c57c25072d2",
+      "topicId": "satellite-counts",
+      "topicLabel": "行星卫星计数",
+      "risk": "高",
+      "title": "Magnetically Driven Obliquity in Circumplanetary Disks and Twisted Bipolar-jet Formation",
+      "authors": [
+        "Raúl O. Chametla",
+        "Martin E. Pessah",
+        "F. Javier Sánchez-Salcedo",
+        "David Vokrouhlický",
+        "Mauricio Reyes-Ruiz",
+        "Ondrej Chrenko",
+        "Alessandro Morbidelli"
+      ],
+      "date": "2026-09-09",
+      "url": "http://arxiv.org/abs/2609.10035v1",
+      "arxivId": "2609.10035v1",
+      "pdf": "https://arxiv.org/pdf/2609.10035v1",
+      "abstract": "Circumplanetary disks (CPDs) regulate gas accretion onto forming giant planets and provide the environment in which their satellites may form. We use high-resolution, global three-dimensional simulations to investigate the early formation, orientation, and outflows of a CPD around a Jupiter-mass planet embedded in a turbulent magnetized protoplanetary disk. Within a locally isothermal, ideal-MHD framework, we evolve disks threaded by net vertical magnetic fields, corresponding to initial plasma parameters $875\\leqβ\\leq3500$, until magnetorotational-instability-driven turbulence is established before inserting the planet. We also perform a hydrodynamic control simulation. In the most strongly",
+      "matchedKeywords": [
+        "planetary",
+        "satellite",
+        "jupiter",
+        "satellites"
+      ],
+      "matchedAnchors": [
+        "jupiter",
+        "circumplanetary"
+      ],
+      "matchedContext": [
+        "satellite"
+      ],
+      "relevance": 1,
+      "targets": [
+        "web/js/data/solar-system.js → jupiter.moons",
+        "web/js/data/solar-system.js → saturn.moons",
+        "web/js/data/solar-system.js → uranus.moons",
+        "web/js/data/solar-system.js → neptune.moons"
+      ],
+      "why": "2025–2026 年土星、木星仍在批量确认新卫星（土星 274→293、木星 95→115）。这是全表变动最快的数值，几乎每次重查都有更新。",
+      "hint": "权威口径看 NASA Planetary Satellite Discovery Circumstances 与 MPC 公告，不要采信媒体转述的数字。",
+      "status": "pending",
+      "foundAt": "2026-09-10T15:13:06.149Z"
+    },
+    {
+      "id": "6782c371d55f",
+      "topicId": "ice-giant-colors",
+      "topicLabel": "冰巨星外观颜色",
+      "risk": "中",
+      "title": "JWST-SUPER I: New insights into irradiated warm Neptunes atmospheres from MIRI observations of HD 106315 c",
+      "authors": [
+        "A. Dyrek",
+        "R. Waters",
+        "S. -M. Tsai",
+        "M. Holmberg",
+        "B. Edwards",
+        "J. Pye",
+        "M. Güdel",
+        "N. Crouzet"
+      ],
+      "date": "2026-09-09",
+      "url": "http://arxiv.org/abs/2609.09893v1",
+      "arxivId": "2609.09893v1",
+      "pdf": "https://arxiv.org/pdf/2609.09893v1",
+      "abstract": "Sulphur-bearing molecules have recently emerged as powerful tracers of atmospheric photochemistry in exoplanets observed with JWST. In several warm giant planets, SO$_2$ has been detected as a product of UV-driven chemical processing, suggesting a close connection between stellar irradiation, atmospheric metallicity, and sulphur chemistry. Whether these trends extend to Neptune-mass planets orbiting hotter stars remains largely unexplored. We investigate the atmospheric composition of the warm Neptune HD 106315 c, a Neptune-mass planet orbiting an F-type host star and subjected to a strong ultraviolet (UV) irradiation environment. Here, we report the low-resolution transmission spectrum betw",
+      "matchedKeywords": [
+        "neptune",
+        "giant",
+        "atmospheric"
+      ],
+      "matchedAnchors": [
+        "neptune"
+      ],
+      "matchedContext": [
+        "spectrum"
+      ],
+      "relevance": 0.93,
+      "targets": [
+        "web/js/data/solar-system.js → neptune.color",
+        "web/js/data/solar-system.js → uranus.color",
+        "README.md → 科学说明（冰巨星颜色）"
+      ],
+      "why": "海王星「深蓝」来自 Voyager 2 摄像头受木星辐射带损伤 + 对比度增强的失真；真实颜色是与天王星相近的淡青蓝。这类「探测器影像失真被当成事实」的情况在天文学里很常见。",
+      "hint": "关注 Irwin 等基于 HST/VLT 多波段重建真实颜色的工作。",
+      "status": "pending",
+      "foundAt": "2026-09-10T15:13:06.588Z"
+    },
+    {
+      "id": "655ec9b0b82e",
+      "topicId": "ice-giant-colors",
+      "topicLabel": "冰巨星外观颜色",
+      "risk": "中",
+      "title": "Detecting White Dwarf Exoplanets in the Roman Era",
+      "authors": [
+        "Zifan Lin",
+        "Tansu Daylan"
+      ],
+      "date": "2026-09-08",
+      "url": "http://arxiv.org/abs/2609.09481v1",
+      "arxivId": "2609.09481v1",
+      "pdf": "https://arxiv.org/pdf/2609.09481v1",
+      "abstract": "White dwarfs (WDs) provide an unparalleled opportunity for detecting and characterizing exoplanets because of the large planet-to-star size ratio. However, only one transiting WD exoplanet is confirmed to date, and occurrence rate constraints remain loose because the rapid transits and weak phase curve modulations of WD exoplanets require high-precision, high-cadence photometry. The Galactic Bulge Time Domain Survey (GBTDS) of the Nancy Grace Roman Space Telescope will provide exactly this by observing thousands of WDs at 12.1-minute cadence. The expected WD exoplanet yield of this survey is not yet quantified. Here, we predict the GBTDS WD exoplanet yield over its first three high-cadence s",
+      "matchedKeywords": [
+        "neptune"
+      ],
+      "matchedAnchors": [
+        "neptune"
+      ],
+      "matchedContext": [
+        "photometry"
+      ],
+      "relevance": 0.91,
+      "targets": [
+        "web/js/data/solar-system.js → neptune.color",
+        "web/js/data/solar-system.js → uranus.color",
+        "README.md → 科学说明（冰巨星颜色）"
+      ],
+      "why": "海王星「深蓝」来自 Voyager 2 摄像头受木星辐射带损伤 + 对比度增强的失真；真实颜色是与天王星相近的淡青蓝。这类「探测器影像失真被当成事实」的情况在天文学里很常见。",
+      "hint": "关注 Irwin 等基于 HST/VLT 多波段重建真实颜色的工作。",
+      "status": "pending",
+      "foundAt": "2026-09-10T15:13:06.589Z"
+    },
+    {
+      "id": "ce7611bbba06",
+      "topicId": "mission-status",
+      "topicLabel": "探测器任务状态",
+      "risk": "高",
+      "title": "Wave Emission and Absorption in a Near-Sun Proton-Cyclotron Wave Storm",
+      "authors": [
+        "Kristopher G Klein",
+        "Daniel Verscharen",
+        "Mihailo Martinovic",
+        "Niranjana",
+        "Ali Rahmati",
+        "Roberto Livi",
+        "Davin Larson",
+        "Michael Stevens"
+      ],
+      "date": "2026-09-09",
+      "url": "http://arxiv.org/abs/2609.10422v1",
+      "arxivId": "2609.10422v1",
+      "pdf": "https://arxiv.org/pdf/2609.10422v1",
+      "abstract": "Quantification of energy transport and dissipation in weakly collisional heliospheric plasmas that are far from local thermodynamic equilibrium is an outstanding scientific problem. A central challenge is determining how non-Maxwellian velocity-space structure affects damping and emission of coherent ion-scale waves, especially compared to simplified analytical models for background plasma velocity distributions. In this work, we study the damping and emission of parallel-propagating proton cyclotron waves for two models of proton velocity distributions measured by the SPAN-I instrument on board Parker Solar Probe during an extended storm of waves with left-hand polarization in the solar win",
+      "matchedKeywords": [
+        "mission",
+        "extended"
+      ],
+      "matchedAnchors": [
+        "parker solar probe"
+      ],
+      "matchedContext": [
+        "extended"
+      ],
+      "relevance": 0.92,
+      "targets": [
+        "web/js/data/probes.js → 各任务 status",
+        "web/js/data/probes.js → 各任务 facts",
+        "web/js/data/solar-system.js → venus.exploration"
+      ],
+      "why": "任务延期、终止、入轨日期变更是高频变动项，且官方公告一出旧值立刻变成错误。",
+      "hint": "只采信 NASA / ESA / JAXA 官方任务页与新闻稿，二手汇总站的更新往往滞后数月。",
+      "status": "pending",
+      "foundAt": "2026-09-10T15:13:07.032Z"
+    },
+    {
+      "id": "7789d192432e",
+      "topicId": "exoplanet-atmospheres",
+      "topicLabel": "系外行星大气结论",
+      "risk": "中",
+      "title": "Can the Long-Term Impact of Stellar M-Dwarf Flares Alter the Spectral Features of a Giant Gaseous Exoplanet?",
+      "authors": [
+        "Amy Louca",
+        "Shang-Min Tsai",
+        "Yamila Miguel"
+      ],
+      "date": "2026-09-09",
+      "url": "http://arxiv.org/abs/2609.09970v1",
+      "arxivId": "2609.09970v1",
+      "pdf": "https://arxiv.org/pdf/2609.09970v1",
+      "abstract": "In this work, we model the long-term impact of recurrent stellar flares on the atmospheres of metal-rich gaseous exoplanets. Using synthetic flare spectra from a fiducial flare model integrated with a photochemical kinetics code, we track the changes in atmospheric composition with time. We further analyze the spectral variability by feeding these abundance profiles into a radiative transfer code at various time steps. Our simulations showed variability and persistent changes in key atmospheric species, such as CH4, CO2, and SO2, when compared to their quiescent state. Extreme flare events cause rapid depletion of molecules in the upper atmosphere and a temporary disappearance of spectral fe",
+      "matchedKeywords": [
+        "exoplanet",
+        "atmosphere",
+        "dwarf",
+        "planet"
+      ],
+      "matchedAnchors": [
+        "exoplanet",
+        "m-dwarf"
+      ],
+      "matchedContext": [
+        "atmosphere",
+        "spectral",
+        "retrieval"
+      ],
+      "relevance": 1,
+      "targets": [
+        "web/js/data/deep-sky.js → TRAPPIST-1.facts",
+        "web/js/data/deep-sky.js → 比邻星 facts",
+        "data/exoplanets.json → 各系统行星参数"
+      ],
+      "why": "JWST 时代系外行星大气结论刷新极快，前一版「很有希望」的表述常在一年内被否定（如 TRAPPIST-1 b 几乎不存在实质大气）。",
+      "hint": "关注 Nature Astronomy / ApJL 上的 JWST 大气光谱论文。",
+      "status": "pending",
+      "foundAt": "2026-09-10T15:13:07.422Z"
+    },
+    {
+      "id": "22ea06cda49e",
+      "topicId": "exoplanet-atmospheres",
+      "topicLabel": "系外行星大气结论",
+      "risk": "中",
+      "title": "JWST-SUPER I: New insights into irradiated warm Neptunes atmospheres from MIRI observations of HD 106315 c",
+      "authors": [
+        "A. Dyrek",
+        "R. Waters",
+        "S. -M. Tsai",
+        "M. Holmberg",
+        "B. Edwards",
+        "J. Pye",
+        "M. Güdel",
+        "N. Crouzet"
+      ],
+      "date": "2026-09-09",
+      "url": "http://arxiv.org/abs/2609.09893v1",
+      "arxivId": "2609.09893v1",
+      "pdf": "https://arxiv.org/pdf/2609.09893v1",
+      "abstract": "Sulphur-bearing molecules have recently emerged as powerful tracers of atmospheric photochemistry in exoplanets observed with JWST. In several warm giant planets, SO$_2$ has been detected as a product of UV-driven chemical processing, suggesting a close connection between stellar irradiation, atmospheric metallicity, and sulphur chemistry. Whether these trends extend to Neptune-mass planets orbiting hotter stars remains largely unexplored. We investigate the atmospheric composition of the warm Neptune HD 106315 c, a Neptune-mass planet orbiting an F-type host star and subjected to a strong ultraviolet (UV) irradiation environment. Here, we report the low-resolution transmission spectrum betw",
+      "matchedKeywords": [
+        "jwst",
+        "exoplanet",
+        "atmosphere",
+        "transmission",
+        "planet"
+      ],
+      "matchedAnchors": [
+        "exoplanet"
+      ],
+      "matchedContext": [
+        "atmosphere"
+      ],
+      "relevance": 0.95,
+      "targets": [
+        "web/js/data/deep-sky.js → TRAPPIST-1.facts",
+        "web/js/data/deep-sky.js → 比邻星 facts",
+        "data/exoplanets.json → 各系统行星参数"
+      ],
+      "why": "JWST 时代系外行星大气结论刷新极快，前一版「很有希望」的表述常在一年内被否定（如 TRAPPIST-1 b 几乎不存在实质大气）。",
+      "hint": "关注 Nature Astronomy / ApJL 上的 JWST 大气光谱论文。",
+      "status": "pending",
+      "foundAt": "2026-09-10T15:13:07.422Z"
+    },
+    {
+      "id": "759153bddcb6",
+      "topicId": "planetary-rotation",
+      "topicLabel": "行星自转与内部结构",
+      "risk": "低",
+      "title": "Magnetically Driven Obliquity in Circumplanetary Disks and Twisted Bipolar-jet Formation",
+      "authors": [
+        "Raúl O. Chametla",
+        "Martin E. Pessah",
+        "F. Javier Sánchez-Salcedo",
+        "David Vokrouhlický",
+        "Mauricio Reyes-Ruiz",
+        "Ondrej Chrenko",
+        "Alessandro Morbidelli"
+      ],
+      "date": "2026-09-09",
+      "url": "http://arxiv.org/abs/2609.10035v1",
+      "arxivId": "2609.10035v1",
+      "pdf": "https://arxiv.org/pdf/2609.10035v1",
+      "abstract": "Circumplanetary disks (CPDs) regulate gas accretion onto forming giant planets and provide the environment in which their satellites may form. We use high-resolution, global three-dimensional simulations to investigate the early formation, orientation, and outflows of a CPD around a Jupiter-mass planet embedded in a turbulent magnetized protoplanetary disk. Within a locally isothermal, ideal-MHD framework, we evolve disks threaded by net vertical magnetic fields, corresponding to initial plasma parameters $875\\leqβ\\leq3500$, until magnetorotational-instability-driven turbulence is established before inserting the planet. We also perform a hydrodynamic control simulation. In the most strongly",
+      "matchedKeywords": [
+        "planetary",
+        "rotation",
+        "structure",
+        "jupiter"
+      ],
+      "matchedAnchors": [
+        "jupiter"
+      ],
+      "matchedContext": [
+        "obliquity"
+      ],
+      "relevance": 0.94,
+      "targets": [
+        "web/js/data/solar-system.js → 各行星 rotationHours",
+        "web/js/data/solar-system.js → 各行星 axialTilt"
+      ],
+      "why": "自转周期长期沿用 Voyager 旧值，Cassini/Juno 的环震学与重力场反演会给出更准的值（如土星 10h39m22s → 10h33m38s）。",
+      "hint": "关注基于 Cassini 环震学、Juno 重力场的内部结构论文。",
+      "status": "pending",
+      "foundAt": "2026-09-10T15:13:07.927Z"
+    }
+  ],
+  "lastScanAdded": 7
+}

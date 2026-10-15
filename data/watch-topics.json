@@ -1,0 +1,349 @@
+{
+  "schema": "lc.watch-topics/1",
+  "_about": "科研监测主题表。每个主题绑定一组「本地字段」——监测器据此检索最新论文，并把它可能与哪个字段冲突写成待复核建议。主题只覆盖随时间漂移的高风险内容，不是全量天文检索。",
+  "_anchors": "anchors 是「强特征词」：一条论文必须命中至少一个 anchor 才进入候选。泛词（orbital / period / long / structure 之类）只参与排序，不能单独触发——否则一篇球状星团巡天论文会因为含「orbital period」而被当成彗星论文。",
+  "updatedAt": "2026-09-10",
+  "defaults": {
+    "windowDays": 180,
+    "maxPerTopic": 6,
+    "minRelevance": 0.5,
+    "requireAnchor": true,
+    "requireContext": true
+  },
+  "topics": [
+    {
+      "id": "satellite-counts",
+      "label": "行星卫星计数",
+      "query": "planetary satellite discovery new moons census",
+      "altQueries": [
+        "Saturn new moons confirmed",
+        "Jupiter irregular satellites count"
+      ],
+      "targets": [
+        "web/js/data/solar-system.js → jupiter.moons",
+        "web/js/data/solar-system.js → saturn.moons",
+        "web/js/data/solar-system.js → uranus.moons",
+        "web/js/data/solar-system.js → neptune.moons"
+      ],
+      "risk": "高",
+      "why": "2025–2026 年土星、木星仍在批量确认新卫星（土星 274→293、木星 95→115）。这是全表变动最快的数值，几乎每次重查都有更新。",
+      "hint": "权威口径看 NASA Planetary Satellite Discovery Circumstances 与 MPC 公告，不要采信媒体转述的数字。",
+      "anchors": [
+        "saturn",
+        "saturnian",
+        "jupiter",
+        "jovian",
+        "uranus",
+        "neptune",
+        "irregular satellite",
+        "circumplanetary"
+      ],
+      "context": [
+        "satellite",
+        "moon",
+        "moonlet",
+        "discovery",
+        "census",
+        "count",
+        "retrograde",
+        "orbit",
+        "population"
+      ]
+    },
+    {
+      "id": "ice-giant-colors",
+      "label": "冰巨星外观颜色",
+      "query": "Uranus Neptune true color haze aerosol reflectivity",
+      "altQueries": [
+        "Irwin Neptune color correction",
+        "ice giant atmospheric color"
+      ],
+      "targets": [
+        "web/js/data/solar-system.js → neptune.color",
+        "web/js/data/solar-system.js → uranus.color",
+        "README.md → 科学说明（冰巨星颜色）"
+      ],
+      "risk": "中",
+      "why": "海王星「深蓝」来自 Voyager 2 摄像头受木星辐射带损伤 + 对比度增强的失真；真实颜色是与天王星相近的淡青蓝。这类「探测器影像失真被当成事实」的情况在天文学里很常见。",
+      "hint": "关注 Irwin 等基于 HST/VLT 多波段重建真实颜色的工作。",
+      "anchors": [
+        "neptune",
+        "uranus",
+        "ice giant"
+      ],
+      "context": [
+        "color",
+        "colour",
+        "haze",
+        "aerosol",
+        "reflectivity",
+        "albedo",
+        "methane",
+        "spectrum",
+        "photometry",
+        "appearance"
+      ]
+    },
+    {
+      "id": "mission-status",
+      "label": "探测器任务状态",
+      "query": "spacecraft mission extended end of mission orbit insertion",
+      "altQueries": [
+        "Juno mission extension",
+        "BepiColombo Mercury orbit insertion",
+        "Akatsuki mission end"
+      ],
+      "targets": [
+        "web/js/data/probes.js → 各任务 status",
+        "web/js/data/probes.js → 各任务 facts",
+        "web/js/data/solar-system.js → venus.exploration"
+      ],
+      "risk": "高",
+      "why": "任务延期、终止、入轨日期变更是高频变动项，且官方公告一出旧值立刻变成错误。",
+      "hint": "只采信 NASA / ESA / JAXA 官方任务页与新闻稿，二手汇总站的更新往往滞后数月。",
+      "anchors": [
+        "juno",
+        "bepicolombo",
+        "akatsuki",
+        "new horizons",
+        "voyager 1",
+        "voyager 2",
+        "parker solar probe",
+        "lucy",
+        "psyche",
+        "europa clipper",
+        "juice"
+      ],
+      "context": [
+        "mission",
+        "spacecraft",
+        "orbit insertion",
+        "flyby",
+        "extended",
+        "end of mission",
+        "operations",
+        "telemetry"
+      ]
+    },
+    {
+      "id": "exoplanet-atmospheres",
+      "label": "系外行星大气结论",
+      "query": "JWST exoplanet atmosphere transmission spectroscopy M dwarf",
+      "altQueries": [
+        "TRAPPIST-1 atmosphere JWST",
+        "rocky planet secondary atmosphere"
+      ],
+      "targets": [
+        "web/js/data/deep-sky.js → TRAPPIST-1.facts",
+        "web/js/data/deep-sky.js → 比邻星 facts",
+        "data/exoplanets.json → 各系统行星参数"
+      ],
+      "risk": "中",
+      "why": "JWST 时代系外行星大气结论刷新极快，前一版「很有希望」的表述常在一年内被否定（如 TRAPPIST-1 b 几乎不存在实质大气）。",
+      "hint": "关注 Nature Astronomy / ApJL 上的 JWST 大气光谱论文。",
+      "anchors": [
+        "trappist",
+        "proxima",
+        "exoplanet",
+        "super-earth",
+        "sub-neptune",
+        "m-dwarf",
+        "mdwarf"
+      ],
+      "context": [
+        "atmosphere",
+        "transmission spectroscopy",
+        "spectral",
+        "escape",
+        "haze",
+        "cloud",
+        "emission spectrum",
+        "retrieval",
+        "climate",
+        "thermal"
+      ]
+    },
+    {
+      "id": "planetary-rotation",
+      "label": "行星自转与内部结构",
+      "query": "planetary rotation period seismology interior structure",
+      "altQueries": [
+        "Saturn ring seismology rotation",
+        "Jupiter interior rotation"
+      ],
+      "targets": [
+        "web/js/data/solar-system.js → 各行星 rotationHours",
+        "web/js/data/solar-system.js → 各行星 axialTilt"
+      ],
+      "risk": "低",
+      "why": "自转周期长期沿用 Voyager 旧值，Cassini/Juno 的环震学与重力场反演会给出更准的值（如土星 10h39m22s → 10h33m38s）。",
+      "hint": "关注基于 Cassini 环震学、Juno 重力场的内部结构论文。",
+      "anchors": [
+        "jupiter",
+        "saturn",
+        "uranus",
+        "neptune",
+        "saturnian",
+        "jovian"
+      ],
+      "context": [
+        "rotation",
+        "seismology",
+        "interior structure",
+        "gravity field",
+        "gravitational moment",
+        "differential rotation",
+        "love number",
+        "obliquity",
+        "moment of inertia"
+      ]
+    },
+    {
+      "id": "interstellar-objects",
+      "label": "星际天体",
+      "query": "interstellar object 3I/ATLAS Oumuamua Borisov",
+      "altQueries": [
+        "interstellar comet composition",
+        "dark comets classification"
+      ],
+      "targets": [
+        "web/js/data/small-bodies.js → 1I / 2I / 3I",
+        "web/js/data/small-bodies.js → 星际天体分组"
+      ],
+      "risk": "中",
+      "why": "星际天体每次新观测都会补充核半径、年龄、成分；且「暗彗星」等新分类会改变归类方式。",
+      "hint": "关注 Hubble / JWST / VLT 对 3I/ATLAS 的后续观测与 SETI 监听结论。",
+      "anchors": [
+        "interstellar object",
+        "oumuamua",
+        "borisov",
+        "3i/atlas",
+        "1i/",
+        "2i/",
+        "3i/",
+        "interstellar comet",
+        "dark comet"
+      ],
+      "context": [
+        "orbit",
+        "composition",
+        "nucleus",
+        "spectrum",
+        "origin",
+        "hyperbolic",
+        "ejection",
+        "interstellar",
+        "activity"
+      ]
+    },
+    {
+      "id": "impact-hazard",
+      "label": "近地天体撞击风险",
+      "query": "near-Earth asteroid impact probability hazard Bennu Apophis",
+      "altQueries": [
+        "Bennu impact probability 2182",
+        "Apophis 2029 flyby"
+      ],
+      "targets": [
+        "web/js/data/small-bodies.js → bennu.facts",
+        "web/js/data/small-bodies.js → apophis"
+      ],
+      "risk": "中",
+      "why": "撞击概率与日期随观测弧段延长而更新（贝努曾误写为 2135 年，实为 2182-09-24）。",
+      "hint": "以 JPL CNEOS Sentry 与 ESA 风险页为准。",
+      "anchors": [
+        "bennu",
+        "apophis",
+        "didymos",
+        "dimorphos",
+        "near-earth asteroid",
+        "phaethon"
+      ],
+      "context": [
+        "impact",
+        "probability",
+        "hazard",
+        "risk",
+        "deflection",
+        "yarkovsky",
+        "collision",
+        "close approach",
+        "orbit"
+      ]
+    },
+    {
+      "id": "comet-returns",
+      "label": "彗星回归周期",
+      "query": "comet orbital period return perihelion",
+      "altQueries": [
+        "Hale-Bopp orbital period",
+        "long period comet return"
+      ],
+      "targets": [
+        "web/js/data/small-bodies.js → halebopp.facts",
+        "web/js/data/small-bodies.js → 周期彗星分组"
+      ],
+      "risk": "低",
+      "why": "长周期彗星的周期常被写成夸张的整数（海尔-波普曾被写成 4300 年，实为约 2400–2530 年）。",
+      "hint": "以 JPL Small-Body Database 的轨道解为准。",
+      "anchors": [
+        "comet",
+        "cometary",
+        "hale-bopp",
+        "halley",
+        "67p",
+        "churyumov"
+      ],
+      "context": [
+        "orbital period",
+        "period",
+        "return",
+        "perihelion",
+        "nucleus",
+        "coma",
+        "activity",
+        "orbit",
+        "outgassing"
+      ]
+    },
+    {
+      "id": "dwarf-planet-classification",
+      "label": "矮行星与天体分类",
+      "query": "dwarf planet candidate classification Hygiea Quaoar ring",
+      "altQueries": [
+        "dwarf planet definition IAU",
+        "Planet Nine evidence"
+      ],
+      "targets": [
+        "web/js/data/solar-system.js → DWARFS",
+        "web/js/data/small-bodies.js → 塞德娜 facts（第九大行星假说）"
+      ],
+      "risk": "低",
+      "why": "矮行星候选名单与第九大行星假说都在变动；2025 年新发现的高远日点天体已削弱第九大行星的聚簇证据。",
+      "hint": "关注 IAU 分类公告与高远日点天体巡天论文。",
+      "anchors": [
+        "dwarf planet",
+        "hygiea",
+        "quaoar",
+        "planet nine",
+        "planet 9",
+        "sedna",
+        "plutoid",
+        "eris",
+        "makemake",
+        "haumea"
+      ],
+      "context": [
+        "classification",
+        "candidate",
+        "definition",
+        "ring",
+        "orbit",
+        "trans-neptunian",
+        "survey",
+        "population",
+        "inclination"
+      ]
+    }
+  ]
+}

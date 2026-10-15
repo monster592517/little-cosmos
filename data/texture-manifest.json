@@ -1,0 +1,497 @@
+{
+ "meta": {
+  "note": "每个贴图的来源 / 许可 / 原始影像 / 分辨率 / 法线贴图",
+  "sources": [
+   "Solar System Scope (CC BY 4.0)",
+   "Celestia Content (NASA/USGS/JPL, GPL-2.0+)"
+  ]
+ },
+ "files": {
+  "sun.jpg": {
+   "source": "Solar System Scope 8K 贴图",
+   "license": "CC BY 4.0",
+   "imaging": "SDO / Solar Orbiter 全日面影像",
+   "width": 2048,
+   "height": 1024,
+   "normal": null,
+   "bytes": 398792
+  },
+  "mercury.jpg": {
+   "source": "Solar System Scope 8K 贴图",
+   "license": "CC BY 4.0",
+   "imaging": "MESSENGER MDIS 全球马赛克（NASA/APL）",
+   "width": 2048,
+   "height": 1024,
+   "normal": "mercury_normal.jpg",
+   "bytes": 561049
+  },
+  "venus.jpg": {
+   "source": "Solar System Scope 8K 贴图",
+   "license": "CC BY 4.0",
+   "imaging": "Magellan 雷达地形 + 金星表面重建",
+   "width": 2048,
+   "height": 1024,
+   "normal": null,
+   "bytes": 494697
+  },
+  "venus_atmosphere.jpg": {
+   "source": "Solar System Scope 8K 贴图",
+   "license": "CC BY 4.0",
+   "imaging": "Mariner 10 / Venus Express 云顶影像",
+   "width": 1024,
+   "height": 512,
+   "normal": null,
+   "bytes": 42181
+  },
+  "earth.jpg": {
+   "source": "Solar System Scope 8K 贴图",
+   "license": "CC BY 4.0",
+   "imaging": "NASA Blue Marble（MODIS 影像合成）",
+   "width": 4096,
+   "height": 2048,
+   "normal": null,
+   "bytes": 853357
+  },
+  "earth_night.jpg": {
+   "source": "Solar System Scope 8K 贴图",
+   "license": "CC BY 4.0",
+   "imaging": "NASA Black Marble（Suomi NPP VIIRS 夜间灯光）",
+   "width": 2048,
+   "height": 1024,
+   "normal": null,
+   "bytes": 134208
+  },
+  "earth_clouds.jpg": {
+   "source": "Solar System Scope 8K 贴图",
+   "license": "CC BY 4.0",
+   "imaging": "NASA 云层合成影像",
+   "width": 2048,
+   "height": 1024,
+   "normal": null,
+   "bytes": 669729
+  },
+  "earth_normal.png": {
+   "source": "Solar System Scope 8K 贴图",
+   "license": "CC BY 4.0",
+   "imaging": "由 ETOPO 地形数据生成的法线图",
+   "width": 1024,
+   "height": 512,
+   "normal": null,
+   "bytes": 107035
+  },
+  "earth_specular.png": {
+   "source": "Solar System Scope 8K 贴图",
+   "license": "CC BY 4.0",
+   "imaging": "海洋/陆地高光遮罩（NASA）",
+   "width": 1024,
+   "height": 512,
+   "normal": null,
+   "bytes": 153356
+  },
+  "moon.jpg": {
+   "source": "Solar System Scope 8K 贴图",
+   "license": "CC BY 4.0",
+   "imaging": "LRO LROC 全球影像（NASA/GSFC）",
+   "width": 2048,
+   "height": 1024,
+   "normal": "moon_normal.jpg",
+   "bytes": 688408
+  },
+  "mars.jpg": {
+   "source": "Solar System Scope 8K 贴图",
+   "license": "CC BY 4.0",
+   "imaging": "NASA / JPL 火星全球影像（Viking + MGS）",
+   "width": 2048,
+   "height": 1024,
+   "normal": "mars_normal.jpg",
+   "bytes": 391562
+  },
+  "jupiter.jpg": {
+   "source": "Solar System Scope 8K 贴图",
+   "license": "CC BY 4.0",
+   "imaging": "Juno JunoCam / Cassini ISS 全球图",
+   "width": 2048,
+   "height": 1024,
+   "normal": null,
+   "bytes": 285069
+  },
+  "saturn.jpg": {
+   "source": "Solar System Scope 8K 贴图",
+   "license": "CC BY 4.0",
+   "imaging": "Cassini ISS 全球图",
+   "width": 2048,
+   "height": 1024,
+   "normal": null,
+   "bytes": 120605
+  },
+  "saturn_ring.png": {
+   "source": "Solar System Scope 8K 贴图",
+   "license": "CC BY 4.0",
+   "imaging": "Cassini 环系透明度图",
+   "width": 1024,
+   "height": 62,
+   "normal": null,
+   "bytes": 7930
+  },
+  "uranus.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Voyager 2 影像（按 Irwin et al. 2024 重定色）",
+   "width": 1024,
+   "height": 512,
+   "normal": null,
+   "bytes": 9727
+  },
+  "neptune.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Voyager 2 影像（按 Irwin et al. 2024 重定色）",
+   "width": 1024,
+   "height": 512,
+   "normal": null,
+   "bytes": 23707
+  },
+  "io.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Galileo SSI / Voyager + JunoCam 全球图",
+   "width": 2048,
+   "height": 1024,
+   "normal": "io_normal.jpg",
+   "bytes": 293804
+  },
+  "europa.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Galileo SSI / Voyager 全球马赛克",
+   "width": 2048,
+   "height": 1024,
+   "normal": "europa_normal.jpg",
+   "bytes": 849342
+  },
+  "ganymede.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Galileo SSI / Voyager 全球马赛克 + Juno 补充",
+   "width": 2048,
+   "height": 1024,
+   "normal": "ganymede_normal.jpg",
+   "bytes": 326078
+  },
+  "callisto.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Galileo SSI / Voyager 全球马赛克",
+   "width": 2048,
+   "height": 1024,
+   "normal": "callisto_normal.jpg",
+   "bytes": 456839
+  },
+  "jupiter_juno.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Juno JunoCam 2018 全球图",
+   "width": 2048,
+   "height": 1024,
+   "normal": null,
+   "bytes": 282049
+  },
+  "phobos.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Viking / Mars Express 全球马赛克",
+   "width": 1024,
+   "height": 512,
+   "normal": "phobos_normal.jpg",
+   "bytes": 50391
+  },
+  "deimos.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Viking 全球马赛克",
+   "width": 1024,
+   "height": 512,
+   "normal": "deimos_normal.jpg",
+   "bytes": 20397
+  },
+  "titan.jpg": {
+   "source": "NASA / USGS 官方全球马赛克",
+   "license": "公有领域（NASA / JHUAPL / USGS）",
+   "imaging": "Cassini ISS 全球马赛克（PIA22770）",
+   "width": 2048,
+   "height": 1024,
+   "normal": "titan_normal.jpg",
+   "bytes": 268583
+  },
+  "enceladus.jpg": {
+   "source": "NASA / USGS 官方全球马赛克",
+   "license": "公有领域（NASA / JHUAPL / USGS）",
+   "imaging": "Cassini ISS 全球马赛克（PIA18435）",
+   "width": 2048,
+   "height": 1024,
+   "normal": "enceladus_normal.jpg",
+   "bytes": 836830
+  },
+  "mimas.jpg": {
+   "source": "NASA / USGS 官方全球马赛克",
+   "license": "公有领域（NASA / JHUAPL / USGS）",
+   "imaging": "Cassini ISS 全球马赛克（PIA18437）",
+   "width": 1024,
+   "height": 512,
+   "normal": "mimas_normal.jpg",
+   "bytes": 173964
+  },
+  "tethys.jpg": {
+   "source": "NASA / USGS 官方全球马赛克",
+   "license": "公有领域（NASA / JHUAPL / USGS）",
+   "imaging": "Cassini ISS 全球马赛克（PIA18439）",
+   "width": 1024,
+   "height": 512,
+   "normal": "tethys_normal.jpg",
+   "bytes": 208085
+  },
+  "dione.jpg": {
+   "source": "NASA / USGS 官方全球马赛克",
+   "license": "公有领域（NASA / JHUAPL / USGS）",
+   "imaging": "Cassini ISS 全球马赛克（PIA12577）",
+   "width": 1024,
+   "height": 512,
+   "normal": "dione_normal.jpg",
+   "bytes": 216879
+  },
+  "rhea.jpg": {
+   "source": "NASA / USGS 官方全球马赛克",
+   "license": "公有领域（NASA / JHUAPL / USGS）",
+   "imaging": "Cassini ISS 全球马赛克（PIA18438）",
+   "width": 1024,
+   "height": 512,
+   "normal": "rhea_normal.jpg",
+   "bytes": 208044
+  },
+  "iapetus.jpg": {
+   "source": "NASA / USGS 官方全球马赛克",
+   "license": "公有领域（NASA / JHUAPL / USGS）",
+   "imaging": "Cassini ISS 全球马赛克（PIA18436）",
+   "width": 1024,
+   "height": 512,
+   "normal": "iapetus_normal.jpg",
+   "bytes": 131426
+  },
+  "phoebe.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Cassini ISS 飞掠影像",
+   "width": 512,
+   "height": 256,
+   "normal": "phoebe_normal.jpg",
+   "bytes": 12165
+  },
+  "hyperion.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Cassini ISS 影像拼接",
+   "width": 512,
+   "height": 256,
+   "normal": "hyperion_normal.jpg",
+   "bytes": 24852
+  },
+  "miranda.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Voyager 2 全球马赛克",
+   "width": 1024,
+   "height": 512,
+   "normal": "miranda_normal.jpg",
+   "bytes": 31463
+  },
+  "ariel.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Voyager 2 全球马赛克",
+   "width": 1024,
+   "height": 512,
+   "normal": "ariel_normal.jpg",
+   "bytes": 37385
+  },
+  "umbriel.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Voyager 2 影像",
+   "width": 512,
+   "height": 256,
+   "normal": "umbriel_normal.jpg",
+   "bytes": 10545
+  },
+  "titania.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Voyager 2 影像",
+   "width": 512,
+   "height": 256,
+   "normal": "titania_normal.jpg",
+   "bytes": 11822
+  },
+  "oberon.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Voyager 2 影像",
+   "width": 512,
+   "height": 256,
+   "normal": "oberon_normal.jpg",
+   "bytes": 10229
+  },
+  "puck.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Voyager 2 影像",
+   "width": 256,
+   "height": 128,
+   "normal": "puck_normal.jpg",
+   "bytes": 2224
+  },
+  "triton.jpg": {
+   "source": "NASA / USGS 官方全球马赛克",
+   "license": "公有领域（NASA / JHUAPL / USGS）",
+   "imaging": "Voyager 2 全球马赛克（PIA18668）",
+   "width": 1024,
+   "height": 512,
+   "normal": "triton_normal.jpg",
+   "bytes": 112620
+  },
+  "pluto.jpg": {
+   "source": "NASA / USGS 官方全球马赛克",
+   "license": "公有领域（NASA / JHUAPL / USGS）",
+   "imaging": "New Horizons 全球彩色图（PIA11707）",
+   "width": 2048,
+   "height": 1024,
+   "normal": "pluto_normal.jpg",
+   "bytes": 415085
+  },
+  "charon.jpg": {
+   "source": "NASA / USGS 官方全球马赛克",
+   "license": "公有领域（NASA / JHUAPL / USGS）",
+   "imaging": "New Horizons 全球马赛克（PIA19866）+ 彩色图上色",
+   "width": 1024,
+   "height": 512,
+   "normal": "charon_normal.jpg",
+   "bytes": 85438
+  },
+  "nix.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "New Horizons 影像",
+   "width": 256,
+   "height": 128,
+   "normal": "nix_normal.jpg",
+   "bytes": 2241
+  },
+  "ceres.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Dawn 取景相机全球马赛克",
+   "width": 1024,
+   "height": 512,
+   "normal": "ceres_normal.jpg",
+   "bytes": 209346
+  },
+  "vesta.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Dawn 取景相机 HAMO 全球马赛克",
+   "width": 1024,
+   "height": 512,
+   "normal": "vesta_normal.jpg",
+   "bytes": 54176
+  },
+  "eros.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "NEAR Shoemaker MSI 全球马赛克",
+   "width": 512,
+   "height": 256,
+   "normal": "eros_normal.jpg",
+   "bytes": 18757
+  },
+  "itokawa.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "隼鸟号 AMICA 影像拼接",
+   "width": 256,
+   "height": 128,
+   "normal": "itokawa_normal.jpg",
+   "bytes": 4709
+  },
+  "bennu.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "OSIRIS-REx OCAMS 全球马赛克",
+   "width": 512,
+   "height": 256,
+   "normal": "bennu_normal.jpg",
+   "bytes": 67985
+  },
+  "ryugu.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "隼鸟 2 号 ONC 全球马赛克",
+   "width": 512,
+   "height": 256,
+   "normal": "ryugu_normal.jpg",
+   "bytes": 59399
+  },
+  "arrokoth.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "New Horizons LORRI 飞掠影像",
+   "width": 256,
+   "height": 128,
+   "normal": "arrokoth_normal.jpg",
+   "bytes": 9527
+  },
+  "gaspra.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Galileo SSI 飞掠影像",
+   "width": 256,
+   "height": 128,
+   "normal": null,
+   "bytes": 3186
+  },
+  "ida.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Galileo SSI 飞掠影像",
+   "width": 256,
+   "height": 128,
+   "normal": null,
+   "bytes": 3236
+  },
+  "lutetia.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Rosetta OSIRIS 飞掠影像",
+   "width": 256,
+   "height": 128,
+   "normal": null,
+   "bytes": 3166
+  },
+  "mathilde.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "NEAR Shoemaker MSI 飞掠影像",
+   "width": 256,
+   "height": 128,
+   "normal": null,
+   "bytes": 1034
+  },
+  "dinkinesh.jpg": {
+   "source": "Celestia Content 全球影像",
+   "license": "GPL-2.0+（NASA / USGS / JPL 影像汇编）",
+   "imaging": "Lucy L'LORRI 飞掠影像",
+   "width": 256,
+   "height": 128,
+   "normal": null,
+   "bytes": 4518
+  }
+ }
+}
