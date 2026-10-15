@@ -69,7 +69,10 @@ Think **"Stellarium × NASA Eyes on the Universe"** as a single web page, with p
 
 ## 快速开始
 
-**双击「启动小小宇宙.bat」**（图标是太阳 + 轨道环）。
+**🌐 在线试玩（无需安装）**：**https://monster592517.github.io/little-cosmos/**
+（在线版为演示模式：完整六层宇宙可视化 + 真实星历；论文检索/数据更新等 server 功能需本地部署）
+
+**双击「启动小小宇宙.bat」**（图标是太阳 + 轨道环）→ 完整功能（本地 server + 论文检索 + 数据更新中心）。
 
 - 会自动：启动本地服务（独立最小化窗口，标题 `Little Cosmos Server`）→ 用 Edge/Chrome 打开界面。
 - 服务已在运行时不会重复启动，直接开窗口。
