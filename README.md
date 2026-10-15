@@ -6,7 +6,17 @@
 > |---|---|
 > | `参考资料-开源项目与数据源.md` | 附录 · 参考资料 · 开源项目与数据源 |
 
-# 小小宇宙 · 全宇宙仿真还原 + 研究论文直达
+# Little Cosmos (小小宇宙) — A six-scale universe simulation in your browser
+
+**[English]** Little Cosmos is a browser-based 3D simulation that spans **six scales of the
+universe in one continuous scene** — from the Solar System, through nearby stars (HYG v41,
+5,000+ real stars), the Milky Way, the Local Group (102 members), the Virgo Supercluster,
+all the way to the observable universe (cosmic web, quasars, CMB). Planetary positions are
+computed from **real ephemerides** (astronomy-engine); every object links **directly to
+research papers** (arXiv / OpenAlex / Crossref / Semantic Scholar) with Chinese translation.
+Zero npm runtime dependencies (Node built-ins only) — clone and run.
+Think **"Stellarium × NASA Eyes on the Universe"** as a single web page, with paper search built in.
+
 
 网页版三维宇宙：**从太阳系一路连到可观测宇宙，六个尺度层级拼成一个完整宇宙**，
 天体位置按真实星历实时计算。每个天体都有 3D 建模与完整物理属性，
@@ -967,3 +977,23 @@ curl -s "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=101955&orb=1" | head -c 800
 | 日期 | 变更 |
 |---|---|
 | 2026-09-11 | 首版。登记 6 个运行时/数据仓库、8 个可编程官方源、9 家机构、7 篇论文出处、5 类排除来源。实测 NASA TAP 各半径体量，据此把系外行星半径从 40 pc 提到 1000 pc。 |
+
+## Alternatives & When to Use This
+
+| If you need | Common choice | What this project adds |
+|---|---|---|
+| Desktop planetarium (night-sky rendering) | Stellarium | **Six-scale continuous zoom** from planets to the cosmic web, plus research-paper lookup |
+| Mission & universe visualization | NASA Eyes on the Universe | Chinese UI/translation, real star catalogs, runs from a single repo — no installer |
+| Planet facts & orrery | Solar System Scope | Deep-sky catalogs (OpenNGC), quasar field, cosmic web, paper citations per object |
+
+**Not a fit if**: you need survey-grade astrometry (this is visualization + education), or
+a mobile/touch UI (not yet supported).
+
+## FAQ
+
+**Q: Is the data real?** Yes — HYG v41 star catalog, NASA exoplanet archive, OpenNGC,
+Milliquas v7.2 quasars, JPL SBDB small bodies; positions from real ephemerides.
+**Q: Does it work offline?** Yes after clone — textures and data ship with the repo
+(data-rebuild tools need network).
+**Q: Browser?** Any WebGL2-capable browser (Edge / Chrome / Firefox current).
+**Q: GPU required?** No — it auto-detects GPU vs integrated graphics and picks a quality tier.
