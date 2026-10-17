@@ -105,7 +105,7 @@ const TABLE = [
     { massKg: 1.2e21, densityGcm3: 1.8, gravity: 0.25, escapeKms: 0.52, rotationHours: 17.68, albedo: 0.11, periodDays: 105600, ring: { innerKm: 4057, outerKm: 4138, note: '2023 年发现，位于经典洛希极限之外，挑战了环形成理论' }, desc: '柯伊伯带中的矮行星候选，2023 年发现它拥有一个位于洛希极限之外的环——挑战了环形成理论。', facts: ['环半径 4100 公里，远超经典洛希极限。'], researchQuery: 'Quaoar ring Roche limit' }],
   ['sedna', '塞德娜', 'Sedna', 'Sedna', 'tno', 'detached', 498, '#c8785a', 'irregular',
     { massKg: 1e21, densityGcm3: 2.0, gravity: 0.27, escapeKms: 0.5, rotationHours: 10.3, albedo: 0.32, periodDays: 4160000, desc: '极端遥远的内奥尔特云天体，近日点 76 AU，远日点约 937 AU，公转一周约 11400 年。', facts: ['表面是太阳系已知最红的天体之一。', '其轨道可能暗示存在未发现的第九行星或恒星扰动。'], researchQuery: 'Sedna Planet Nine' }],
-  ['orcus', '亡卫星', 'Orcus', 'Orcus', 'tno', 'kuiper', 458, '#a8a8a0', 'irregular',
+  ['orcus', '亡神星', 'Orcus', 'Orcus', 'tno', 'kuiper', 458, '#a8a8a0', 'irregular',
     { massKg: 6.3e20, densityGcm3: 1.9, gravity: 0.2, escapeKms: 0.43, rotationHours: 13.19, albedo: 0.23, periodDays: 90600, desc: '与冥王星形成 2:3 轨道共振的类冥天体，拥有较大的卫星 Vanth。', facts: ['表面覆盖结晶水冰。'], researchQuery: 'Orcus plutino' }],
   ['gonggong', '共工星', 'Gonggong', 'Gonggong', 'tno', 'scattered', 615, '#b07860', 'irregular',
     { massKg: 1.75e21, densityGcm3: 1.8, gravity: 0.31, escapeKms: 0.6, rotationHours: 22.4, albedo: 0.14, periodDays: 203830, desc: '散射盘中的矮行星候选，拥有一颗卫星 Xiangliu。', facts: ['表面呈红色，可能覆盖甲烷与托林。'], researchQuery: 'Gonggong dwarf planet' }],
