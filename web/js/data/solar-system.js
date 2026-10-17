@@ -132,8 +132,16 @@ export const PLANETS = [
   },
   {
     id: 'earth', type: 'planet', name: '地球', en: 'Earth', parent: 'sun',
-    // ⚠️ 待程序化生成：地球无"整体反射率谱"可言（海/陆/云/冰混合，随经度剧变）。必须走程序化生成。
-    //   现行值 #4a90d9 是手写近似，**未经 CIE 计算**；Request C 属性驱动生成器接管后替换。
+    // ★ 2026-10-17 修正一条**误导性 TODO**：这里原来写着「待程序化生成…必须走程序化生成，
+    //   现行值 #4a90d9 是手写近似，未经 CIE 计算；Request C 属性驱动生成器接管后替换」。
+    //   实际上 `color` 在有贴图时**根本不参与本体渲染**（builders.js:309——
+    //   `texture ? (tint ? tint : 0xffffff) : color`），它只服务三处：
+    //     ① 大气辉光 makeGlowTexture(planet.color)（253 行）；② 轨道线颜色（260 行）；③ 面板 UI 色块。
+    //   ⇒ 这条 TODO 把「观感色」当成了「天体测量色」，方向不对，已收回。
+    //   顺手把物理量补上（2026-10-17 用 earth.jpg 实测计算）：
+    //   线性光域按 cos(纬度) 等面积加权的辐射平均 = **#5a6079**（RGB 90,96,121，冷灰蓝）。
+    //   ⚠️ 不要拿它替换 #4a90d9：那个灰蓝用于大气辉光会让地球失去蓝天观感（改一个赔三个）。
+    //      两者职责不同——本体观感由贴图决定，color 只管辉光/轨道/UI。
     color: '#4a90d9', radiusKm: 6371.0, massKg: 5.97237e24, densityGcm3: 5.514,
     gravity: 9.807, escapeKms: 11.186, rotationHours: 23.9345, axialTilt: 23.44,
     albedo: 0.367, magV: -3.99, tempK: 288, tempMinK: 184, tempMaxK: 330,
