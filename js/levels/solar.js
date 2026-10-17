@@ -540,7 +540,7 @@ export class SolarLevel extends Level {
           map: makePinTexture(color, 128), color: '#ffffff',
           transparent: true, opacity: 0.95, depthWrite: false, depthTest: false,
         }));
-        pin.userData.minPx = 16;
+        pin.userData.minPx = 11;   // 2026-10-18：16 → 11（火星 6 个着陆器里好奇/洞察只差 9.2°，16px 十字必重叠）
         group.add(pin);
       } else if (p.mode === 'orbit') {
         const aKm = p.orbitKm?.aKm || 1e6;
@@ -715,7 +715,15 @@ export class SolarLevel extends Level {
       if (e.local && e.probe?.host) {
         const realHost = toScene(this.eph.helio(e.probe.host, date), _v.clone());
         const realProbe = toScene(this.eph.helio(id, date), _v2.clone());
-        const local = realProbe.sub(realHost).multiplyScalar(e.probe._displayScale || 1);
+        let local = realProbe.sub(realHost).multiplyScalar(e.probe._displayScale || 1);
+        /* orbit 探测器：**把位置压到它自己的轨道线上**。
+         * 2026-10-18 修：原实现用「真实偏移 × _displayScale」，而轨道线半径是
+         * `dist = hr(1.9+3.6k)` 压缩值 ⇒ 两者不同步：朱诺号远木点时被放飞到木星
+         * 视觉半径的 ~69 倍处（轨道线只有 4.6 倍），近木点才回到线上 —— 观感就是
+         * 「探测器脱离了轨道、贴着木星/远在天边」。现在保留方向、统一用 dist 定长。 */
+        if (e.probe.mode === 'orbit' && e.probe._displayDist && local.lengthSq() > 1e-18) {
+          local = local.clone().normalize().multiplyScalar(e.probe._displayDist);
+        }
         // 任务结束：星历给到的偏移恒为零（会停在行星中心），覆盖成纪念轨道偏移
         if (e.probe._parkOffset) local.copy(e.probe._parkOffset);
         e.group.position.copy(local);
@@ -729,6 +737,15 @@ export class SolarLevel extends Level {
           local.multiplyScalar((len + lift) / len);
           e.group.position.copy(local);
           e.model.quaternion.setFromUnitVectors(UP, local.clone().normalize());
+        }
+        /* 着陆点十字标记：**只在近景显示**。
+         * 2026-10-18：远景时火星上的 6 个着陆器（好奇/洞察只差 9.2°）的 11px 十字会
+         * 叠成一坨 —— 相机离该探测器的距离超过母星视觉半径的 25 倍就隐藏，
+         * 放大到行星附近才出现（位置、标签仍正常）。 */
+        if (e.pin && e.probe.mode === 'landed') {
+          const hostR = this.#visualRadius(e.probe.host);
+          const camD = this.camera.position.distanceTo(this.#hostWorld(e.probe.host).add(local));
+          e.pin.visible = camD < hostR * 25;
         }
         pos = this.#hostWorld(e.probe.host).add(local);
       } else {
