@@ -511,7 +511,7 @@ export class SolarLevel extends Level {
       map: makeGlowTexture(color, 0.42, 64), color,
       transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending, depthWrite: false,
     }));
-    s.userData.minPx = 7;
+    s.userData.minPx = 5;   // 2026-10-17：7 → 5，远景十几个探测器光点重叠时不至于糊成一片
     return s;
   }
 
@@ -573,22 +573,31 @@ export class SolarLevel extends Level {
       }
 
       /* --- 三维构型建模（2026-10-11）：按真实构型参数化拼装 ---
-       * 尺寸口径：host 类探测器 = 母星视觉半径 × 0.11（贴上表面/轨道时不至于
-       * 比母星还大，也保证「凑近看得清」）；形状因子与构型出自
+       * 尺寸口径：host 类探测器 = 母星视觉半径 × 0.04（2026-10-17 从 0.11 下调：
+       * 0.11 时模型相当于母星半径的 11%，远景一堆探测器把内太阳系糊成一团；
+       * 0.04 仍保证「凑近看得清」，同时远景噪点大幅减少。形状因子与构型出自
        * `objects/spacecraft.js` 的 PRESETS（唯一真源）。 */
       const hrAll = this.#visualRadius(p.host);
-      const modelSize = Math.min(6e-3, Math.max(8e-4, hrAll * 0.11));
+      const modelSize = Math.min(6e-3, Math.max(8e-4, hrAll * 0.04));
       const model = makeSpacecraftModel({ preset: p.model || 'orbiter', color, size: modelSize });
       model.name = `probe-${p.id}`;
       group.add(model);
 
       p._displayScale = displayScale;
+      p._modelSize = modelSize;
       const world = new THREE.Vector3();
-      this.entries.set(p.id, { group, r: 0, kind: 'probe', probe: p, marker, pin, model, local: true, world });
+      this.entries.set(p.id, { group, r: 0, kind: 'probe', probe: p, marker, pin, model, modelSize, local: true, world });
       this.labels.add(p.id, {
         text: p.name, sub: p.mode === 'landed' ? '着陆点' : '',
         position: world, className: 'dim',
-        onClick: () => this.ctx.onSelect?.(p.id), priority: 1,
+        onClick: () => this.ctx.onSelect?.(p.id),
+        /* 2026-10-17：探测器标签只在近景显示。
+         * 默认视野 16 AU 时内太阳系（0.4–1.7 AU 的帕克/贝皮/SOHO/JUICE…）在屏幕上
+         * 只占 ~30 px，十几个探测器标签叠成一团 → 观感像「探测器全贴在太阳上」。
+         * 位置数据本身是对的（旅行者 173 AU 就在视野外）；这是呈现层的取舍：
+         * 视距 > 4.5 场景单位时不显示探测器名，只剩小光点；放大到内太阳系再出现。
+         * priority 归 0 让它在远景排序中天然让位给行星标签（PRIORITY_SLACK 不再放大距离）。 */
+        priority: 0, maxDist: 4.5,
       });
     }
   }
@@ -613,7 +622,13 @@ export class SolarLevel extends Level {
     this.entries.set(p.id, { group, r: 0, kind: 'probe', probe: p, marker, model, world });
     this.labels.add(p.id, {
       text: p.name, position: world, className: 'dim',
-      onClick: () => this.ctx.onSelect?.(p.id), priority: 1,
+      onClick: () => this.ctx.onSelect?.(p.id),
+      /* 2026-10-17：内太阳系的日心探测器（帕克/SOHO/SDO/贝皮…）与 host 探测器同病：
+       * 16 AU 视野下挤在太阳 30px 内，标签糊成一团。视距 > 4.5 时不显示，
+       * 放大到内太阳系再出现。远日探测器（旅行者 172 AU / 新视野 66 AU）例外——
+       * 它们天然分散，拉远视野找它们时正需要名字。 */
+      priority: (p.helio?.au ?? 0) > 10 ? 1 : 0,
+      maxDist: (p.helio?.au ?? 0) > 10 ? null : 4.5,
     });
 
     // 轨迹：发射 → 各次引力弹弓/飞掠 → 当前位置
@@ -704,8 +719,15 @@ export class SolarLevel extends Level {
         // 任务结束：星历给到的偏移恒为零（会停在行星中心），覆盖成纪念轨道偏移
         if (e.probe._parkOffset) local.copy(e.probe._parkOffset);
         e.group.position.copy(local);
-        // 着陆探测器：按表面法线立起来（group.position 就是「母星中心→着陆点」方向）
+        /* 着陆探测器：**先沿法线抬出半个模型高，再立起来**。
+         * 2026-10-17 修：原实现把模型中心放在 1.02R 球面上，而模型尺寸曾是母星
+         * 视觉半径的 11% ⇒ 模型一半以上嵌在球体内部，看上去「探测器和星体贴在一起」。
+         * 现在 local 长度 = 表面距离 + 0.55×模型尺寸，模型底沿正好落在表面外侧。 */
         if (e.model && e.probe.mode === 'landed' && local.lengthSq() > 1e-18) {
+          const len = local.length();
+          const lift = (e.modelSize || 0.001) * 0.55;
+          local.multiplyScalar((len + lift) / len);
+          e.group.position.copy(local);
           e.model.quaternion.setFromUnitVectors(UP, local.clone().normalize());
         }
         pos = this.#hostWorld(e.probe.host).add(local);
